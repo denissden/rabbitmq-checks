@@ -1,0 +1,215 @@
+{
+    "rabbit_version": "3.10.5",
+    "rabbitmq_version": "3.10.5",
+    "product_name": "RabbitMQ",
+    "product_version": "3.10.5",
+    "users": [
+        {
+            "name": "admin",
+            "password_hash": "u/v3jrszk3D5A9EFl4rE0Z20xY0PRDHYHLC84KgbsSCc2ZUA",
+            "hashing_algorithm": "rabbit_password_hashing_sha256",
+            "tags": [
+                "administrator"
+            ],
+            "limits": {}
+        },
+        {
+            "name": "guest",
+            "password_hash": "h+Bfe/VwIhDF5OeWV0MoFLRbU5efShk4P/IbWJPpni+uRndp",
+            "hashing_algorithm": "rabbit_password_hashing_sha256",
+            "tags": [
+                "administrator"
+            ],
+            "limits": {}
+        }
+    ],
+    "vhosts": [
+        {
+            "name": "/"
+        },
+        {
+            "name": "foo"
+        }
+    ],
+    "permissions": [
+        {
+            "user": "guest",
+            "vhost": "/",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        },
+        {
+            "user": "guest",
+            "vhost": "foo",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        },
+        {
+            "user": "admin",
+            "vhost": "/",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        }
+    ],
+    "topic_permissions": [],
+    "parameters": [],
+    "global_parameters": [
+        {
+            "name": "internal_cluster_id",
+            "value": "rabbitmq-cluster-id-nBkYuwxg7bfPXTZv0t1HbA"
+        }
+    ],
+    "policies": [],
+    "queues": [
+        {
+            "name": "q_backend",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {
+                "x-queue-type": "classic"
+            }
+        },
+        {
+            "name": "q_process",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {
+                "x-queue-type": "classic"
+            }
+        },
+        {
+            "name": "q_email",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {
+                "x-queue-type": "classic"
+            }
+        },
+        {
+            "name": "q_process_jpg",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {
+                "x-queue-type": "classic"
+            }
+        },
+        {
+            "name": "q_process_pdf",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {
+                "x-queue-type": "classic"
+            }
+        },
+        {
+            "name": "q_bar2",
+            "vhost": "foo",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {
+                "x-queue-type": "classic"
+            }
+        },
+        {
+            "name": "q_bar",
+            "vhost": "foo",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {
+                "x-queue-type": "classic"
+            }
+        }
+    ],
+    "exchanges": [
+        {
+            "name": "message_exchange",
+            "vhost": "/",
+            "type": "topic",
+            "durable": true,
+            "auto_delete": false,
+            "internal": false,
+            "arguments": {}
+        },
+        {
+            "name": "files_exchange",
+            "vhost": "/",
+            "type": "headers",
+            "durable": true,
+            "auto_delete": false,
+            "internal": false,
+            "arguments": {}
+        }
+    ],
+    "bindings": [
+        {
+            "source": "files_exchange",
+            "vhost": "/",
+            "destination": "q_process_jpg",
+            "destination_type": "queue",
+            "routing_key": "",
+            "arguments": {
+                "File-Type": "jpeg"
+            }
+        },
+        {
+            "source": "files_exchange",
+            "vhost": "/",
+            "destination": "q_process_jpg",
+            "destination_type": "queue",
+            "routing_key": "",
+            "arguments": {
+                "File-Type": "jpg"
+            }
+        },
+        {
+            "source": "files_exchange",
+            "vhost": "/",
+            "destination": "q_process_pdf",
+            "destination_type": "queue",
+            "routing_key": "",
+            "arguments": {
+                "File-Type": "pdf"
+            }
+        },
+        {
+            "source": "message_exchange",
+            "vhost": "/",
+            "destination": "q_backend",
+            "destination_type": "queue",
+            "routing_key": "*.api.#",
+            "arguments": {}
+        },
+        {
+            "source": "message_exchange",
+            "vhost": "/",
+            "destination": "q_email",
+            "destination_type": "queue",
+            "routing_key": "email.get_messages",
+            "arguments": {}
+        },
+        {
+            "source": "message_exchange",
+            "vhost": "/",
+            "destination": "q_email",
+            "destination_type": "queue",
+            "routing_key": "email.send",
+            "arguments": {}
+        },
+        {
+            "source": "message_exchange",
+            "vhost": "/",
+            "destination": "q_process",
+            "destination_type": "queue",
+            "routing_key": "process.#",
+            "arguments": {}
+        }
+    ]
+}
