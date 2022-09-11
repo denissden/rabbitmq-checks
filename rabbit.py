@@ -74,6 +74,7 @@ class Rabbit:
         logger.info('Channel created')
         channel.add_on_close_callback(self._on_channel_close)
         channel.add_on_cancel_callback(self._on_cancel_consume)
+        channel.basic_qos(prefetch_count=100)
 
         self._async_loop.call_soon_threadsafe(self._start_future.set_result, True)
 
